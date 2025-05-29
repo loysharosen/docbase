@@ -51,29 +51,29 @@
                     <tr>
                         <th>DocBase-dokument</th>
                         {% if links|selectattr('source_link')|list %}
+                            <th>Hämtat</th>
                             <th>Källa</th>
-                            <th>Hämtad</th>
                         {% endif %}
                     </tr>
                     {% for link in links %}
                     <tr>
                         <td>
-                            <p class="funky-brow">
+                            <p class="links-table-link">
                                 <a href="static/files/{{ link.docbase_link }}" target="_blank">
                                     {{ link.docbase_link }}
                                 </a>
                             </p>
                         </td>
                         {% if link.source_link %}
+                            <td class="date-added">
+                                <p>{{ link.date_added }}</p>
+                            </td>
                             <td>
-                                <p class="funky-brow">
+                                <p class="links-table-link">
                                     <a href="{{ link.source_link }}" target="_blank">
                                         {{ link.source_link }}
                                     </a>
                                 </p>
-                            </td>
-                            <td>
-                                <p>{{ link.date_added }}</p>
                             </td>
                         {% endif %}
                     </tr>

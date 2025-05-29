@@ -128,12 +128,13 @@ footer
     text-align: center;
 }
 
-.funky-brow
+.links-table-link
 {
     overflow: hidden;    /* Hides any content that overflows the element's box */
     text-overflow: ellipsis; /* Displays an ellipsis (...) to indicate truncated text */
     white-space: nowrap;
     display: block;
+    
 }
 
 .links-table {
@@ -149,14 +150,7 @@ footer
     padding: 8px;
 }
 
-.links-table td:nth-child(1) {  /* Document column */
-    width: 30%;
-}
-
-.links-table td:nth-child(2) {  /* Source column */
-    width: 50%;
-}
-
-.links-table td:nth-child(3) {  /* Date column */
-    width: 20%;
+.date-added
+{
+    text-align: center !important;
 }
