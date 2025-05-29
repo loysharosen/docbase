@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS tests (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    abbreviation TEXT,
+    description TEXT NOT NULL,
+    keywords TEXT,
+    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS links (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    test_id INTEGER NOT NULL,
+    docbase_link TEXT NOT NULL,
+    source_link TEXT,
+    votes INTEGER DEFAULT 0,
+    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (test_id) REFERENCES tests (id) ON DELETE CASCADE
+);

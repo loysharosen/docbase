@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="static/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+        {% block body %}
+        {% endblock %}
+
+        <footer>
+            <p>&copy; <span class="copy-year"></span> loysharosen.com</p>
+        </footer>
+
+        <script type="module" src="static/script.js"></script>
+    </body>
+</html>

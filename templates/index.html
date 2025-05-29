@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>DocBase</title>
+        <link href="static/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+    <main class="main-index">
+        <div class="logo-search-bar-container">
+            <div class="text-logo">
+                <span class="doc">Doc</span><span class="base">Base</span>
+            </div>
+            <div class="search-bar">
+                <p><strong>Sök</strong> | <a href="{{ url_for('browse') }}">Bläddra</a></p>
+                <form action="/s" method="get">
+                    <input class="q" autocomplete="off" autofocus name="q" placeholder="Sök här..." type="search">
+                </form>
+                <p class="index-footer">&copy; <span class="copy-year"></span> loysharosen.com</p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="static/script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}DocBase{% endblock %}
+
+{% block body %}
+    <header class="search-header">
+        <div class="text-logo">
+            <a href="{{ url_for('index') }}" class="logo"><span class="doc">D</span><span class="base">B</span></a>
+        </div>
+        <div class="search-bar">
+            {% if referrer %}
+            <p><strong>Sök</strong> | <a href="{{ url_for('browse') }}">Bläddra</a></p>
+            {% else %}
+            <p><a href="{{ url_for('search') }}">Sök</a> | <strong>Bläddra</strong></p>
+            {% endif %}
+            <form action="/s" method="get">
+                <input class="q" autocomplete="off" autofocus name="q" placeholder="Sök här..." type="search">
+            </form>
+        </div>
+    </header>
+
+    <main class="main-detail">
+        <hr>
+        <div class="detail-outer-container">
+            <div class="detail-inner-container">
+                <div class="back-button">
+                    {% if referrer %}
+                        <a href="{{ url_for('search', q=referrer) }}" class="back-link">← Tillbaka till sökresultaten</a>
+                    {% else %}
+                        <a href="{{ url_for('browse') }}" class="back-link">← Tillbaka till bläddring</a>
+                    {% endif %}
+                </div>
+
+                <h1>
+                    {{ test.name }}
+                    {% if test.abbreviation %}
+                        ({{ test.abbreviation }})
+                    {% endif %}
+                </h1>            
+
+                {% if test.description %}
+                <p><strong>Beskrivning:</strong> {{ test.description }}</p>
+                {% endif %}
+
+                {% if test.keywords %}
+                <p><strong>Nyckelord:</strong> {{ test.keywords }}</p>
+                {% endif %}
+
+                {% if links %}
+                <table class="links-table">
+                    <tr>
+                        <th>Dokument</th>
+                        {% if links|selectattr('source_link')|list %}
+                            <th>Källa</th>
+                            <th>Hämtad</th>
+                        {% endif %}
+                    </tr>
+                    {% for link in links %}
+                    <tr>
+                        <td>
+                            <p class="funky-brow">
+                                <a href="static/files/{{ link.docbase_link }}" target="_blank">
+                                    {{ link.docbase_link }}
+                                </a>
+                            </p>
+                        </td>
+                        {% if link.source_link %}
+                            <td>
+                                <p class="funky-brow">
+                                    <a href="{{ link.source_link }}" target="_blank">
+                                        {{ link.source_link }}
+                                    </a>
+                                </p>
+                            </td>
+                            <td>
+                                <p>{{ link.date_added }}</p>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    
+{% endblock %}

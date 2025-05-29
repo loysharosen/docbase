@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}DocBase{% endblock %}
+
+{% block body %}
+    <header class="search-header">
+        <div class="text-logo">
+            <a href="{{ url_for('index') }}" class="logo"><span class="doc">D</span><span class="base">B</span></a>
+        </div>
+        <div class="search-bar">
+            <p><a href="{{ url_for('search') }}">Sök</a> | <strong>Bläddra</strong></p>
+            <form action="/s" method="get">
+                <input class="q" autocomplete="off" autofocus name="q" placeholder="Sök här..." type="search">
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <hr>
+        <div class="search-results-container">
+            <table class="search-results">
+                <tr>
+                    <th>Namn</th>
+                    <th>Beskrivning</th>
+                    <th>Länk</th>
+                </tr>
+            {% for test in tests %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('show_detail', id=test['id'], from=request.args.get('q', '')) }}">
+                            {{ test["name"] }}
+                            {% if test.abbreviation %}
+                                ({{ test["abbreviation"] }})
+                            {% endif %}
+                            </a>
+                        </a>
+                    </td>
+                    <td>
+                        {{ test["description"] }}
+                    </td>
+                    <td class="link">
+                        {% if test.docbase_link %}
+                        <a href="static/files/{{ test.docbase_link }}" target="_blank">
+                            <img class="open-file" src="static/img/open-file.png">
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </main>
+    
+{% endblock %}

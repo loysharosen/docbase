@@ -1,0 +1,130 @@
+html
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-index
+{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.detail-outer-container
+{
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-logo {
+    font-family: 'Arial', sans-serif; /* Ett annat typsnitt för variation */
+    font-size: 2.8em; /* Stor textstorlek */
+    font-weight: bold; /* Fet stil */
+    color: #2563eb; /* Klarblå färg (Tailwind blue-600) */
+    padding: 10px 0;
+    letter-spacing: 1px; /* Lite extra avstånd mellan bokstäver */
+}
+
+.text-logo .doc {
+    color: #1e3a8a; /* Mörkare blå för "Fysio" (Tailwind blue-800) */
+}
+
+.text-logo .base {
+    color: #3b82f6; /* Ljusare blå för "Bas" (Tailwind blue-500) */
+}
+
+.logo
+{
+    text-decoration: none;
+}
+
+.index-footer
+{
+    padding: 30px;
+}
+
+.search-results-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.search-results
+{
+    padding: 0;
+    margin: 10px;
+    gap: 0.5em;
+    text-align: left;
+    margin: 3px;
+}
+
+.open-file
+{
+    width: 18px;
+}
+
+.search-header
+{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+th
+{
+    padding: 3px;
+    background-color: rgb(136, 169, 255);
+}
+
+.q
+{
+    max-width: 300px;
+    font-size: 16px;
+}
+
+.search-bar p
+{
+    margin: 0;
+    text-align: center;
+}
+
+tr
+{
+    
+    background-color: rgba(227, 229, 233, 0.715)
+}
+
+tr:hover
+{
+    background-color: rgba(255, 255, 255, 0.925)
+}
+
+td
+{
+    padding: 0 3px;
+}
+
+td.link {
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+footer
+{
+    text-align: center;
+}
+
+.funky-brow
+{
+    white-space: nowrap; /* Prevents text from wrapping to the next line */
+    overflow: hidden;    /* Hides any content that overflows the element's box */
+    text-overflow: ellipsis; /* Displays an ellipsis (...) to indicate truncated text */
+    max-width: 200px; /* Or whatever your desired maximum width is */
+}
