@@ -23,12 +23,12 @@ def search():
         search_query = args.strip()
         conn = get_db_connection()
         all_tests = conn.execute(
-            """SELECT t.*, l.docbase_link 
+            """SELECT t.*, l.docbase_link, l.source_link
                FROM tests t 
                LEFT JOIN (
-                   SELECT test_id, docbase_link
+                   SELECT test_id, docbase_link, source_link
                    FROM (
-                       SELECT test_id, docbase_link, votes, date_added,
+                       SELECT test_id, docbase_link, source_link, votes, date_added,
                               ROW_NUMBER() OVER (PARTITION BY test_id ORDER BY votes DESC, date_added ASC) as rn
                        FROM links
                    ) ranked
@@ -62,12 +62,12 @@ def search():
 def browse():
     conn = get_db_connection()
     tests = conn.execute(
-        """SELECT t.*, l.docbase_link 
+        """SELECT t.*, l.docbase_link, l.source_link 
            FROM tests t 
            LEFT JOIN (
-               SELECT test_id, docbase_link
+               SELECT test_id, docbase_link, source_link
                FROM (
-                   SELECT test_id, docbase_link, votes, date_added,
+                   SELECT test_id, docbase_link, source_link, votes, date_added,
                           ROW_NUMBER() OVER (PARTITION BY test_id ORDER BY votes DESC, date_added ASC) as rn
                    FROM links
                ) ranked

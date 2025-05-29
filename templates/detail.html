@@ -49,14 +49,17 @@
                 {% if links %}
                 <table class="links-table">
                     <tr>
-                        <th>DocBase-dokument</th>
-                        {% if links|selectattr('source_link')|list %}
+                        {% if links|selectattr('docbase_link')|list %}
+                            <th>DocBase-dokument</th>
                             <th>Hämtat</th>
+                        {% endif %}
+                        {% if links|selectattr('source_link')|list %}
                             <th>Källa</th>
                         {% endif %}
                     </tr>
                     {% for link in links %}
                     <tr>
+                        {% if links|selectattr('docbase_link')|list %}         
                         <td>
                             <p class="links-table-link">
                                 <a href="static/files/{{ link.docbase_link }}" target="_blank">
@@ -64,10 +67,12 @@
                                 </a>
                             </p>
                         </td>
-                        {% if link.source_link %}
-                            <td class="date-added">
-                                <p>{{ link.date_added }}</p>
-                            </td>
+                        <td class="date-added">
+                            <p>{{ link.date_added }}</p>
+                        </td>
+                        {% endif %}
+                            
+                            {% if link.source_link %}
                             <td>
                                 <p class="links-table-link">
                                     <a href="{{ link.source_link }}" target="_blank">

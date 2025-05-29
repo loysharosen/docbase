@@ -45,6 +45,10 @@
                         <a href="static/files/{{ test.docbase_link }}" target="_blank">
                             <img class="open-file" src="static/img/open-file.png">
                         </a>
+                        {% elif test.source_link %}
+                        <a href="{{ test.source_link }}" target="_blank">
+                            <img class="open-file" src="static/img/open-file.png">
+                        </a>
                         {% endif %}
                     </td>
                 </tr>

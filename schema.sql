@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tests (
 CREATE TABLE IF NOT EXISTS links (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     test_id INTEGER NOT NULL,
-    docbase_link TEXT NOT NULL,
+    docbase_link TEXT,
     source_link TEXT,
     votes INTEGER DEFAULT 0,
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
