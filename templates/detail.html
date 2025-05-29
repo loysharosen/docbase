@@ -39,7 +39,7 @@
                 </h1>            
 
                 {% if test.description %}
-                <p><strong>Beskrivning:</strong> {{ test.description }}</p>
+                <p>{{ test.description }}</p>
                 {% endif %}
 
                 {% if test.keywords %}
@@ -49,7 +49,7 @@
                 {% if links %}
                 <table class="links-table">
                     <tr>
-                        <th>Dokument</th>
+                        <th>DocBase-dokument</th>
                         {% if links|selectattr('source_link')|list %}
                             <th>Källa</th>
                             <th>Hämtad</th>

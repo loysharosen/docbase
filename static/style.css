@@ -16,10 +16,16 @@ html
 .detail-outer-container
 {
     display: flex;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+}
+
+.detail-inner-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 0 20px;
 }
 
 .text-logo {
@@ -63,6 +69,7 @@ html
     gap: 0.5em;
     text-align: left;
     margin: 3px;
+    max-width: 900px;
 }
 
 .open-file
@@ -123,8 +130,33 @@ footer
 
 .funky-brow
 {
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
     overflow: hidden;    /* Hides any content that overflows the element's box */
     text-overflow: ellipsis; /* Displays an ellipsis (...) to indicate truncated text */
-    max-width: 200px; /* Or whatever your desired maximum width is */
+    white-space: nowrap;
+    display: block;
+}
+
+.links-table {
+    max-width: 900px;
+    width: 100%;
+    table-layout: fixed;
+    margin: 1em 0;
+}
+
+.links-table td {
+    max-width: 0;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.links-table td:nth-child(1) {  /* Document column */
+    width: 30%;
+}
+
+.links-table td:nth-child(2) {  /* Source column */
+    width: 50%;
+}
+
+.links-table td:nth-child(3) {  /* Date column */
+    width: 20%;
 }
