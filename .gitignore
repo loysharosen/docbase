@@ -2,3 +2,4 @@
 .DS_store
 .venv
 __pycache__
+docbase.db
