@@ -20,33 +20,33 @@
     <main>
         <hr>
         <div class="search-results-container">
-            {% if tests %}
+            {% if docs %}
             <table class="search-results">
                 <tr>
                     <th>Namn</th>
                     <th>Beskrivning</th>
                     <th>Länk</th>
                 </tr>
-            {% for test in tests %}
+            {% for doc in docs %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('show_detail', id=test['id'], from=request.args.get('q', '')) }}">
-                            {{ test["name"] }}
-                            {% if test.abbreviation %}
-                                ({{ test["abbreviation"] }})
+                        <a href="{{ url_for('show_detail', id=doc['id'], from=request.args.get('q', '')) }}">
+                            {{ doc["name"] }}
+                            {% if doc.abbreviation %}
+                                ({{ doc["abbreviation"] }})
                             {% endif %}
                         </a>
                     </td>
                     <td>
-                        {{ test["description"]|truncate(100) }}
+                        {{ doc["description"]|truncate(100) }}
                     </td>
                     <td class="link">
-                        {% if test.docbase_link %}
-                        <a href="static/files/{{ test.docbase_link }}" target="_blank">
+                        {% if doc.docbase_link %}
+                        <a href="static/files/{{ doc.docbase_link }}" target="_blank">
                             <img class="open-file" src="static/img/open-file.png">
                         </a>
-                        {% elif test.source_link %}
-                        <a href="{{ test.source_link }}" target="_blank">
+                        {% elif doc.source_link %}
+                        <a href="{{ doc.source_link }}" target="_blank">
                             <img class="open-file" src="static/img/open-file.png">
                         </a>
                         {% endif %}

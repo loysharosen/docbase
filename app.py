@@ -22,61 +22,59 @@ def search():
     if args:
         search_query = args.strip()
         conn = get_db_connection()
-        all_tests = conn.execute(
+        all_docs = conn.execute(
             """SELECT t.*, l.docbase_link, l.source_link
-               FROM tests t 
+               FROM docs t 
                LEFT JOIN (
-                   SELECT test_id, docbase_link, source_link
+                   SELECT doc_id, docbase_link, source_link
                    FROM (
-                       SELECT test_id, docbase_link, source_link, votes, date_added,
-                              ROW_NUMBER() OVER (PARTITION BY test_id ORDER BY votes DESC, date_added ASC) as rn
+                       SELECT doc_id, docbase_link, source_link, votes, date_added,
+                              ROW_NUMBER() OVER (PARTITION BY doc_id ORDER BY votes DESC, date_added ASC) as rn
                        FROM links
                    ) ranked
                    WHERE rn = 1
-               ) l ON t.id = l.test_id""",
+               ) l ON t.id = l.doc_id""",
         ).fetchall()
         conn.close()
 
-        scored_tests = []
-        for test in all_tests:
-            name_score = fuzz.token_set_ratio(
-                search_query.lower(), test["name"].lower()
-            )
+        scored_docs = []
+        for doc in all_docs:
+            name_score = fuzz.token_set_ratio(search_query.lower(), doc["name"].lower())
             abbrev_score = (
-                fuzz.ratio(search_query.lower(), test["abbreviation"].lower())
-                if test["abbreviation"]
+                fuzz.ratio(search_query.lower(), doc["abbreviation"].lower())
+                if doc["abbreviation"]
                 else 0
             )
             best_score = max(name_score, abbrev_score)
-            if best_score > 50:
-                scored_tests.append((test, best_score))
+            if best_score > 49:
+                scored_docs.append((doc, best_score))
 
-        scored_tests.sort(key=lambda x: x[1], reverse=True)
-        tests = [test for test, _ in scored_tests]
+        scored_docs.sort(key=lambda x: x[1], reverse=True)
+        docs = [doc for doc, _ in scored_docs]
     else:
-        tests = []
-    return render_template("search.html", tests=tests)
+        docs = []
+    return render_template("search.html", docs=docs)
 
 
 @app.route("/b")
 def browse():
     conn = get_db_connection()
-    tests = conn.execute(
+    docs = conn.execute(
         """SELECT t.*, l.docbase_link, l.source_link 
-           FROM tests t 
+           FROM docs t 
            LEFT JOIN (
-               SELECT test_id, docbase_link, source_link
+               SELECT doc_id, docbase_link, source_link
                FROM (
-                   SELECT test_id, docbase_link, source_link, votes, date_added,
-                          ROW_NUMBER() OVER (PARTITION BY test_id ORDER BY votes DESC, date_added ASC) as rn
+                   SELECT doc_id, docbase_link, source_link, votes, date_added,
+                          ROW_NUMBER() OVER (PARTITION BY doc_id ORDER BY votes DESC, date_added ASC) as rn
                    FROM links
                ) ranked
                WHERE rn = 1
-           ) l ON t.id = l.test_id 
+           ) l ON t.id = l.doc_id 
            ORDER BY t.name""",
     ).fetchall()
     conn.close()
-    return render_template("browse.html", tests=tests)
+    return render_template("browse.html", docs=docs)
 
 
 @app.route("/<int:id>")
@@ -86,21 +84,21 @@ def show_detail(id):
 
     referrer = request.args.get("from", "")
     conn = get_db_connection()
-    test = conn.execute(
-        "SELECT * FROM tests WHERE id = ?",
+    doc = conn.execute(
+        "SELECT * FROM docs WHERE id = ?",
         (id,),
     ).fetchone()
 
-    if test is None:
-        return "Test not found", 404
+    if doc is None:
+        return "doc not found", 404
 
     links = conn.execute(
-        "SELECT * FROM links WHERE test_id = ?",
+        "SELECT * FROM links WHERE doc_id = ?",
         (id,),
     ).fetchall()
 
     conn.close()
-    return render_template("detail.html", test=test, links=links, referrer=referrer)
+    return render_template("detail.html", doc=doc, links=links, referrer=referrer)
 
 
 if __name__ == "__main__":

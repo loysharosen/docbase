@@ -32,18 +32,18 @@
                 </div>
 
                 <h1>
-                    {{ test.name }}
-                    {% if test.abbreviation %}
-                        ({{ test.abbreviation }})
+                    {{ doc.name }}
+                    {% if doc.abbreviation %}
+                        ({{ doc.abbreviation }})
                     {% endif %}
                 </h1>            
 
-                {% if test.description %}
-                <p>{{ test.description }}</p>
+                {% if doc.description %}
+                <p>{{ doc.description }}</p>
                 {% endif %}
 
-                {% if test.keywords %}
-                <p><strong>Nyckelord:</strong> {{ test.keywords }}</p>
+                {% if doc.keywords %}
+                <p><strong>Nyckelord:</strong> {{ doc.keywords }}</p>
                 {% endif %}
 
                 {% if links %}
