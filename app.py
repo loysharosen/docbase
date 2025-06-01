@@ -72,7 +72,7 @@ def browse():
                   (SELECT COUNT(*) FROM links WHERE doc_id = d.id) as link_count
             FROM docs d
             LEFT JOIN links l ON d.id = l.doc_id
-            GROUP BY d.id
+            GROUP BY d.id, d.name, d.abbreviation, d.description, d.keywords
             ORDER BY d.name""",
     ).fetchall()
     conn.close()
