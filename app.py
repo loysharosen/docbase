@@ -66,18 +66,14 @@ def search():
 def browse():
     conn = get_db_connection()
     docs = conn.execute(
-        """SELECT t.*, l.docbase_link, l.source_link,
-                    (SELECT COUNT(*) FROM links WHERE doc_id = t.id) as link_count
-            FROM docs t 
-            LEFT JOIN (
-                SELECT doc_id, docbase_link, source_link
-                FROM (
-                    SELECT doc_id, docbase_link, source_link, votes, date_added,
-                            ROW_NUMBER() OVER (PARTITION BY doc_id ORDER BY votes DESC, date_added ASC) as rn
-                    FROM links
-                ) ranked
-                WHERE rn = 1
-            ) l ON t.id = l.doc_id""",
+        """SELECT d.*, 
+                  GROUP_CONCAT(l.docbase_link) as docbase_links,
+                  GROUP_CONCAT(l.source_link) as source_links,
+                  (SELECT COUNT(*) FROM links WHERE doc_id = d.id) as link_count
+            FROM docs d
+            LEFT JOIN links l ON d.id = l.doc_id
+            GROUP BY d.id
+            ORDER BY d.name""",
     ).fetchall()
     conn.close()
     return render_template("browse.html", docs=docs)

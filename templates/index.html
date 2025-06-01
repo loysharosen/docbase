@@ -1,12 +1,18 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="sv">
     <head>
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <title>DocBase</title>
         <link href="static/style.css" rel="stylesheet">
     </head>
-    <body>
+    <body> -->
 
+
+{% extends "base.html" %}
+
+{% block title %}DocBase{% endblock %}
+
+{% block body %}
     <main class="main-index">
         <div class="logo-search-bar-container">
             <div class="text-logo">
@@ -21,12 +27,13 @@
                 <form action="/s" method="get">
                     <input class="q" autocomplete="off" autofocus name="q" placeholder="Sök här..." type="search">
                 </form>
-                <p class="index-footer">&copy; <span class="copy-year"></span> Felix Loysha-Rosén</p>
             </div>
         </div>
     </main>
 
+{% endblock %}
+<!-- 
     <script type="module" src="static/script.js"></script>
 </body>
 </html>
-
+ -->
