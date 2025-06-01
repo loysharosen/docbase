@@ -27,24 +27,30 @@
             {% for doc in docs %}
                 <tr>
                     <td>
+                        {% if doc.link_count > 1 %}
                         <a href="{{ url_for('show_detail', id=doc['id'], from=request.args.get('q', '')) }}">
                             {{ doc["name"] }}
                             {% if doc.abbreviation %}
                                 ({{ doc["abbreviation"] }})
                             {% endif %}
-                            </a>
                         </a>
+                        {% else %}
+                            {{ doc["name"] }}
+                            {% if doc.abbreviation %}
+                                ({{ doc["abbreviation"] }})
+                            {% endif %}
+                        {% endif %}
                     </td>
                     <td>
                         {{ doc["description"] }}
                     </td>
                     <td class="link">
                         {% if doc.docbase_link %}
-                        <a href="static/files/{{ doc.docbase_link }}" target="_blank">
+                        <a href="static/files/{{ doc.docbase_link }}">
                             <img class="open-file" src="static/img/open-file.png">
                         </a>
                         {% elif doc.source_link %}
-                        <a href="{{ doc.source_link }}" target="_blank">
+                        <a href="{{ doc.source_link }}">
                             <img class="open-file" src="static/img/open-file.png">
                         </a>
                         {% endif %}

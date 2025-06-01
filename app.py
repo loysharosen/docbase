@@ -13,7 +13,12 @@ def get_db_connection():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    conn = get_db_connection()
+    count_docs = conn.execute(
+        """SELECT COUNT(*) AS count FROM docs""",
+    ).fetchone()
+    conn.close()
+    return render_template("index.html", count_docs=count_docs)
 
 
 @app.route("/s")
@@ -23,7 +28,8 @@ def search():
         search_query = args.strip()
         conn = get_db_connection()
         all_docs = conn.execute(
-            """SELECT t.*, l.docbase_link, l.source_link
+            """SELECT t.*, l.docbase_link, l.source_link,
+                      (SELECT COUNT(*) FROM links WHERE doc_id = t.id) as link_count
                FROM docs t 
                LEFT JOIN (
                    SELECT doc_id, docbase_link, source_link
@@ -60,18 +66,18 @@ def search():
 def browse():
     conn = get_db_connection()
     docs = conn.execute(
-        """SELECT t.*, l.docbase_link, l.source_link 
-           FROM docs t 
-           LEFT JOIN (
-               SELECT doc_id, docbase_link, source_link
-               FROM (
-                   SELECT doc_id, docbase_link, source_link, votes, date_added,
-                          ROW_NUMBER() OVER (PARTITION BY doc_id ORDER BY votes DESC, date_added ASC) as rn
-                   FROM links
-               ) ranked
-               WHERE rn = 1
-           ) l ON t.id = l.doc_id 
-           ORDER BY t.name""",
+        """SELECT t.*, l.docbase_link, l.source_link,
+                    (SELECT COUNT(*) FROM links WHERE doc_id = t.id) as link_count
+            FROM docs t 
+            LEFT JOIN (
+                SELECT doc_id, docbase_link, source_link
+                FROM (
+                    SELECT doc_id, docbase_link, source_link, votes, date_added,
+                            ROW_NUMBER() OVER (PARTITION BY doc_id ORDER BY votes DESC, date_added ASC) as rn
+                    FROM links
+                ) ranked
+                WHERE rn = 1
+            ) l ON t.id = l.doc_id""",
     ).fetchall()
     conn.close()
     return render_template("browse.html", docs=docs)

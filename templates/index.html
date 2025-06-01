@@ -12,12 +12,16 @@
             <div class="text-logo">
                 <span class="doc">Doc</span><span class="base">Base</span>
             </div>
+
+            <p class="subtitle"><em>Sök bland {{ ((count_docs.count / 10)   | round(0) * 10) | int }}+ medicinska kalkylatorer, lathundar och beslutsstöd.</em></p>
+            <br>
+
             <div class="search-bar">
                 <p><strong>Sök</strong> | <a href="{{ url_for('browse') }}">Bläddra</a></p>
                 <form action="/s" method="get">
                     <input class="q" autocomplete="off" autofocus name="q" placeholder="Sök här..." type="search">
                 </form>
-                <p class="index-footer">&copy; <span class="copy-year"></span> loysharosen.com</p>
+                <p class="index-footer">&copy; <span class="copy-year"></span> Felix Loysha-Rosén</p>
             </div>
         </div>
     </main>

@@ -51,36 +51,41 @@
                     <tr>
                         {% if links|selectattr('docbase_link')|list %}
                             <th>DocBase-dokument</th>
-                            <th>Hämtat</th>
                         {% endif %}
                         {% if links|selectattr('source_link')|list %}
                             <th>Källa</th>
                         {% endif %}
+                        <th>Tillagd</th>
                     </tr>
                     {% for link in links %}
                     <tr>
-                        {% if links|selectattr('docbase_link')|list %}         
-                        <td>
-                            <p class="links-table-link">
-                                <a href="static/files/{{ link.docbase_link }}" target="_blank">
-                                    {{ link.docbase_link }}
-                                </a>
-                            </p>
-                        </td>
-                        <td class="date-added">
-                            <p>{{ link.date_added }}</p>
-                        </td>
-                        {% endif %}
-                            
-                            {% if link.source_link %}
+                        {% if links|selectattr('docbase_link')|list %}
+                            {% if link.docbase_link %}
                             <td>
                                 <p class="links-table-link">
-                                    <a href="{{ link.source_link }}" target="_blank">
-                                        {{ link.source_link }}
+                                    <a href="static/files/{{ link.docbase_link }}" target="_blank">
+                                        {{ link.docbase_link }}
                                     </a>
                                 </p>
                             </td>
+                            {% else %}
+                            <td></td>
+                            {% endif %}
                         {% endif %}
+                            
+                        {% if link.source_link %}
+                        <td>
+                            <p class="links-table-link">
+                                <a href="{{ link.source_link }}" target="_blank">
+                                    {{ link.source_link }}
+                                </a>
+                            </p>
+                        </td>
+                        {% endif %}
+
+                        <td class="date-added">
+                            <p>{{ link.date_added }}</p>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
