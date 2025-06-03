@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS docs (
+CREATE TABLE docs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     abbreviation TEXT,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS docs (
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS links (
+CREATE TABLE links (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     doc_id INTEGER NOT NULL,
     docbase_link TEXT,
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS links (
     FOREIGN KEY (doc_id) REFERENCES docs(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS search_logs (
+CREATE TABLE search_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     search_phrase VARCHAR(255) NOT NULL,
     results_count INTEGER NOT NULL,
-    search_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    search_time DATE DEFAULT (datetime('now','localtime'))
 );
