@@ -27,6 +27,7 @@ def search():
     if args:
         search_query = args.strip()
         conn = get_db_connection()
+
         all_docs = conn.execute(
             """SELECT t.*, l.docbase_link, l.source_link,
                       (SELECT COUNT(*) FROM links WHERE doc_id = t.id) as link_count
@@ -41,7 +42,6 @@ def search():
                    WHERE rn = 1
                ) l ON t.id = l.doc_id""",
         ).fetchall()
-        conn.close()
 
         scored_docs = []
         for doc in all_docs:
@@ -57,6 +57,14 @@ def search():
 
         scored_docs.sort(key=lambda x: x[1], reverse=True)
         docs = [doc for doc, _ in scored_docs]
+
+        conn.execute(
+            "INSERT INTO search_logs (search_phrase, results_count) VALUES (?, ?)",
+            (args, len(scored_docs)),
+        )
+        conn.commit()
+
+        conn.close()
     else:
         docs = []
     return render_template("search.html", docs=docs)
