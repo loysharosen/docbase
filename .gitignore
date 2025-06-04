@@ -4,4 +4,3 @@
 __pycache__
 scrape
 docbase.db
-!docbase.db.template

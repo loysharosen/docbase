@@ -1,18 +1,8 @@
 import sqlite3
-import os
 from flask import Flask, request, render_template
 from rapidfuzz import fuzz
 
 app = Flask(__name__)
-
-
-def init_db():
-    if not os.path.exists("docbase.db"):
-        template_db = sqlite3.connect("docbase.db.template")
-        new_db = sqlite3.connect("docbase.db")
-        template_db.backup(new_db)
-        template_db.close()
-        new_db.close()
 
 
 def get_db_connection():
@@ -122,5 +112,4 @@ def show_detail(id):
 
 
 if __name__ == "__main__":
-    init_db()  # Initialize database if it doesn't exist
     app.run(host="0.0.0.0")
