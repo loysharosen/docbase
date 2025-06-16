@@ -1,5 +1,4 @@
-import psycopg
-from psycopg import rows
+import sqlite3
 from flask import Flask, request, render_template
 from rapidfuzz import fuzz
 
@@ -7,7 +6,8 @@ app = Flask(__name__)
 
 
 def get_db_connection():
-    conn = psycopg.connect("dbname=docbase user=yukito", row_factory=rows.dict_row)
+    conn = sqlite3.connect("docbase.db")
+    conn.row_factory = sqlite3.Row
     return conn
 
 
@@ -59,7 +59,7 @@ def search():
         docs = [doc for doc, _ in scored_docs]
 
         conn.execute(
-            "INSERT INTO search_logs (search_phrase, results_count) VALUES (%s, %s)",
+            "INSERT INTO search_logs (search_phrase, results_count) VALUES (?, ?)",
             (args, len(scored_docs)),
         )
         conn.commit()
@@ -75,8 +75,8 @@ def browse():
     conn = get_db_connection()
     docs = conn.execute(
         """SELECT d.*, 
-                  STRING_AGG(l.docbase_link, ',') as docbase_links,
-                  STRING_AGG(l.source_link, ',') as source_links,
+                  GROUP_CONCAT(l.docbase_link) as docbase_links,
+                  GROUP_CONCAT(l.source_link) as source_links,
                   (SELECT COUNT(*) FROM links WHERE doc_id = d.id) as link_count
             FROM docs d
             LEFT JOIN links l ON d.id = l.doc_id
@@ -95,7 +95,7 @@ def show_detail(id):
     referrer = request.args.get("from", "")
     conn = get_db_connection()
     doc = conn.execute(
-        "SELECT * FROM docs WHERE id = %s",
+        "SELECT * FROM docs WHERE id = ?",
         (id,),
     ).fetchone()
 
@@ -103,7 +103,7 @@ def show_detail(id):
         return "doc not found", 404
 
     links = conn.execute(
-        "SELECT * FROM links WHERE doc_id = %s",
+        "SELECT * FROM links WHERE doc_id = ?",
         (id,),
     ).fetchall()
 
